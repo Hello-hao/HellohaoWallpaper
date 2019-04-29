@@ -13,3 +13,6 @@
 java -jar hellowallpaper.jar
 ```
 
+![](http://hellohao.nos-eastchina1.126.net/5618199a25d74a30846b76fe0be1677a.png)
+
+![](http://hellohao.nos-eastchina1.126.net/f04ef9022d5440239cf2a9a484cbb099.png)
