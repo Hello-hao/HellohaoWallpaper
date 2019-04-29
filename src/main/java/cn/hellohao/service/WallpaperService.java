@@ -1,20 +1,21 @@
 package cn.hellohao.service;
 
 import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 @Service
 public class WallpaperService {
-    public String GetWallpaper(Integer start,Integer count){
+    public String GetWallpaper(Integer start, Integer count) {
         StringBuffer buffer = new StringBuffer();
         HttpURLConnection httpConn = null;
         BufferedReader reader = null;
         try {
-            //url远程接口
-            String strURL = "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start="+start+"&count="+count+"&from=360chrome";
+            String strURL = "http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=" + start + "&count=" + count + "&from=360chrome";
             URL url = new URL(strURL);
             httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("GET");
@@ -39,8 +40,6 @@ public class WallpaperService {
                 }
             }
         }
-        //System.out.println("接口返回值："+buffer.toString());
-
         return buffer.toString();
     }
 }

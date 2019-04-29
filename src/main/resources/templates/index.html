@@ -43,11 +43,11 @@
         <a style="" href="/" class="probootstrap-logo">Wallpaper</a>
         <a style="" href="/" class="probootstrap-logo2">壁纸</a>
         <ul class="daohang">
-            <li><i class="layui-icon layui-icon-about"></i> <a onclick="guanyu();">关于本站</a></li>
+            <li><i class="layui-icon layui-icon-about"></i> <a onclick="guanyu();">关于网站</a></li>
             <li><i class="layui-icon layui-icon-link"></i><a href="http://www.hellohao.cn" target="_blank">作者博客</a></li>
 
         </ul>
-        <p class="description" align="right" style="float: right;line-height: 50px; color: #c2c2c2;"><a style="color:#ffffff;cursor:pointer;">Github开源</a></p>
+        <p class="description" align="right" style="float: right;line-height: 50px; color: #c2c2c2;"><a href="https://github.com/Hello-hao/HellohaoWallpaper" style="color:#ffffff;cursor:pointer;">Github开源</a></p>
     </div>
 </div>
 
@@ -97,16 +97,16 @@
     			setTimeout(function(){
                     //加载图片
                     $.ajax({
-                        type: "GET",
+                        type: "POST",
                         url: "/GetWallpapers",
                         data: {start:start, count:count},
                         dataType: "json",
                         //async: false,
                         success: function(data){
                             var arr = [];
-                            for (var i = 0; i <  data.length; i++) {
-                                var url = data[i].ImgUrl;
-                                var name = data[i].ImgTag;
+                            for (var i = 0; i <  data.data.length; i++) {
+                                var url = data.data[i].url_mobile;
+                                var name = data.data[i].utag;
                                 if(url!=""&&url!=null){
                                     //生成缩略图
                                     var imgurl = url.replace('qhimg.com/','qhimg.com/bdm/500_281_80/');
@@ -157,19 +157,20 @@
                 type: 1,
                 skin: 'layui-layer-demo', //样式类名
                 closeBtn: 0, //不显示关闭按钮
-                area: ['70%', '80%'],
+                area: ['65%', '80%'],
                 title: '<i class="layui-icon layui-icon-picture-fine"></i>&nbsp;&nbsp;&nbsp;'+name+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(如需下载壁纸，请直接右键另存为即可保存原画质壁纸。)",
                 anim: 2,
                 shadeClose: true, //开启遮罩关闭
-                content: '<img src="' + url + '" style=" width:100%;height:100%;max-width:100%;max-height:100%;">'
+                content: '<img src="' + url + '" style=" width:100%;height:auto;max-width:100%;max-height:100%;">'
             });
         }
 function guanyu(){
     layer.open({
-        title: '关于',
+        title: '关于网站',
         closeBtn: 0, //不显示关闭按钮
         area: ['500px', '300px'],
-        content: '本站提供高清图片壁纸图片浏览，供用户下载使用，由java基于360接口语言开发，由于原接口结构较复杂，无用数据较多。我二次整理接口，调用接口简单。'
+        content: '本站提供高清图片壁纸图片浏览，供用户下载使用，由java语言基于360接口开发,本页面不做任何数据采集操作，图片来源或联网。仅供参考。' +
+            '<br /><p style="font-weight:bold;color:#1E9FFF">作者博客：http://www.hellohao.cn</p>'
     });
 }
 
