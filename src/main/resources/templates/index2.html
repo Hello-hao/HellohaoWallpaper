@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+    <title>Wallpaper壁纸站</title>
+    <link rel="stylesheet" th:href="@{/css/normalize.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link href="https://cdn.90so.net/layui/2.4.5/css/layui.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .daohang{
+            list-style:none; /* 去掉ul前面的符号 */
+            margin: 0px; /* 与外界元素的距离为0 */
+            padding: 0px; /* 与内部元素的距离为0 */
+            width: auto; /* 宽度根据元素内容调整 */
+        }
+        .daohang li{
+            float:left;
+            display: block; /* 此元素将显示为块级元素，此元素前后会带有换行符 */
+            line-height: 60px; /* 行高 */
+            padding: 4px 20px; /* 内部填充的距离 */
+        }
+        .daohang a{
+            cursor:pointer;
+            color: #f8f8f8;
+        }
+        .daohang a:hover{
+            color: #c2c2c2;
+        }
+        .layui-layer-content{
+            overflow: scroll;
+        }
+
+
+    </style>
+</head>
+
+<body>
+<div class="fly-header layui-bg-black">
+
+    <div class="layui-container">
+        <a style="" href="/" class="probootstrap-logo">Wallpaper</a>
+        <a style="" href="/" class="probootstrap-logo2">壁纸</a>
+        <ul class="daohang">
+            <li><i class="layui-icon layui-icon-about"></i> <a onclick="guanyu();">关于本站</a></li>
+            <li><i class="layui-icon layui-icon-link"></i><a href="http://www.hellohao.cn" target="_blank">作者博客</a></li>
+
+        </ul>
+        <p class="description" align="right" style="float: right;line-height: 50px; color: #c2c2c2;">hellohao</p>
+    </div>
+</div>
+
+    <div id="waterfall" style="margin-top: 70px;">
+<!--         <div class="pin">
+            <img src="img/1.jpeg" alt="壁纸">
+            <p class="description">名字</p>
+        </div>
+        <div class="pin">
+            <img src="img/9.jpeg" alt="壁纸">
+            <p class="description">名字</p>
+        </div> -->
+    </div>
+    <div class="loader" id="loader">
+        <div class="loader-inner line-spin-fade-loader">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.90so.net/jquery/3.4.0/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/waterfall.js}"></script>
+    <script type="text/javascript" th:src="@{/js/mustache.min.js}"></script>
+    <script src="https://cdn.90so.net/layui/2.4.5/layui.all.js" charset="utf-8"></script>
+
+    <script>
+        var start = 0;
+        var count = 21;
+    	window.onload = function(){
+    		var waterfall = new WaterFall({
+    		    container: '#waterfall',
+    		    pins: ".pin",
+    		    loader: '#loader',
+    		    gapHeight: 20,
+    		    gapWidth: 20,
+    		    pinWidth: 216,
+                threshold: 100
+    		});
+
+    		waterfall.on("load", function(){
+    			setTimeout(function(){
+                    //加载图片
+                    $.ajax({
+                        type: "POST",
+                        url: "/GetWallpapers",
+                        data: {start:start, count:count},
+                        dataType: "json",
+                        //async: false,
+                        success: function(data){
+                            //var json =JSON.stringify(data);
+                            console.log(data)
+                            var arr = [];
+                            for (var i = 0; i <  data.data.length; i++) {
+                                var url = data.data[i].url_mobile;
+                                var name = data.data[i].utag;
+                                if(url!=""&&url!=null){
+                                    //生成缩略图
+
+                                    var imgurl = url.replace('qhimg.com/','qhimg.com/bdm/500_281_80/');
+
+                                    var view = {
+                                        name: name,
+                                        url: url,
+                                        imgurl: imgurl
+                                    };
+                                    // console.log(view);
+                                    var output = Mustache.render('<div class="pin" onclick="win(\'{{&url}}\', \'{{name}}\')"><img class="img" src="{{&imgurl}}" lay-src="{{&imgurl}}"/><p class="description" align="center">{{name}}</p></div>', view);
+                                    // console.log(output);
+                                    arr.push(output);
+                                }else{
+                                    console.log("有图片没有获取到地址："+i);
+                                }
+
+                            }
+                            // 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
+                            waterfall.append(arr.join(''), '.img')
+                            start = start+count;
+                        }
+                    });
+
+    			}, 500)
+    		})
+    	}
+
+        layui.use('flow', function(){
+            var flow = layui.flow;
+            //当你执行这样一个方法时，即对页面中的全部带有lay-src的img元素开启了懒加载（当然你也可以指定相关img）
+            flow.lazyimg({
+                elem: '.pin img'
+            });
+        });
+
+    	function win(url,name){
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-demo', //样式类名
+                closeBtn: 0, //不显示关闭按钮
+                area: ['70%', '80%'],
+                title: '<i class="layui-icon layui-icon-picture-fine"></i>&nbsp;&nbsp;&nbsp;'+name+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(如需下载壁纸，请直接右键另存为即可保存原画质壁纸。)",
+                anim: 2,
+                shadeClose: true, //开启遮罩关闭
+                content: '<img src="' + url + '" style=" width:100%;height:100%;max-width:100%;max-height:100%;">'
+            });
+        }
+        function win(url,name){
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-demo', //样式类名
+                closeBtn: 0, //不显示关闭按钮
+                area: ['70%', '80%'],
+                title: '<i class="layui-icon layui-icon-picture-fine"></i>&nbsp;&nbsp;&nbsp;'+name+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(如需下载壁纸，请直接右键另存为即可保存原画质壁纸。)",
+                anim: 2,
+                shadeClose: true, //开启遮罩关闭
+                content: '<img src="' + url + '" style=" width:100%;height:100%;max-width:100%;max-height:100%;">'
+            });
+        }
+function guanyu(){
+    layer.open({
+        title: '关于',
+        closeBtn: 0, //不显示关闭按钮
+        area: ['300px', '160px'],
+        content: '本站提供高清图片壁纸图片浏览，供用户下载使用，'
+    });
+}
+
+
+    </script>
+</body>
+
+</html>
