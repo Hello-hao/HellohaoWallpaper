@@ -41,7 +41,7 @@ body {
 
 .pin {
     position: absolute;
-    /*width: 216px;*/
+    width: 316px;
     font-size: 12px;
     background-color: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, .3);
