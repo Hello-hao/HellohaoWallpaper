@@ -242,8 +242,10 @@
         // 显示 loading
         if (this._loader) {
             this._loader.style.display = 'block';
-            this._loader.style.top = (this.getMax() + 50) + 'px';
+            this._loader.style.top = (this.getMax() + 100) + 'px';
             this._loader.style.left = '50%';
+            this._loader.style.height='50px';
+            this._loader.style.width='50px';
         }
 
         // 保证短时间内只触发一次
@@ -428,4 +430,6 @@
     } else {
         root.WaterFall = WaterFall;
     }
+    //开源不易，建议保留作者版权信息，感谢支持。
+    console.log("\n %c 高清壁纸站 %c by Hellohao博客 | www.hellohao.cn","color:#444;background:#eee;padding:5px 0;","color:#eee;background:#444;padding:5px 0;");
 }());

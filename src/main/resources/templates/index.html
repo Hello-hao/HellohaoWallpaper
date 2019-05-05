@@ -37,21 +37,32 @@
 </head>
 
 <body>
+<div>
 <div class="fly-header layui-bg-black">
-
-    <div class="layui-container">
-        <a style="" href="/" class="probootstrap-logo">Wallpaper</a>
-        <a style="" href="/" class="probootstrap-logo2">壁纸</a>
-        <ul class="daohang">
-            <li><i class="layui-icon layui-icon-about"></i> <a onclick="guanyu();">关于网站</a></li>
-            <li><i class="layui-icon layui-icon-link"></i><a href="http://www.hellohao.cn" target="_blank">作者博客</a></li>
+        <ul class="layui-nav" lay-filter="daohang">
+            <img src="https://hellohao.nos-eastchina1.126.net/BlogImg/bzlogo.png" style="width: 210px;height: auto; margin-left: 3%;" />
+<!--            <a style="font-size: 28px;" href="/" class="probootstrap-logo">Wallpaper</a>-->
+<!--            <a style="font-size: 14px;" href="/" class="probootstrap-logo2">壁纸</a>-->
+            <li class="layui-nav-item layui-this" style="margin-left:10px;">
+                <a href="javascript:;">图片分类</a>
+                <dl class="layui-nav-child" id="category" style="height: 300px;overflow:scroll;"> <!-- 二级菜单 -->
+<!--                    <dd><a href="">美女</a></dd>-->
+<!--                    <dd><a href="">汽车</a></dd>-->
+<!--                    <dd><a href="">艺术</a></dd>-->
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="http://www.hellohao.cn" target="_blank"><i class="layui-icon layui-icon-link">&nbsp;</i>作者博客</a></li>
+            <li class="layui-nav-item"><a href="javascript:;" onclick="guanyu();"><i class="layui-icon layui-icon-about">&nbsp;</i>关于网站</a></li>
+            <li class="layui-nav-item"><a href="https://github.com/Hello-hao/HellohaoWallpaper" target="_blank"><i class="layui-icon layui-icon-star">&nbsp;</i>Github开源</a></li>
 
         </ul>
-        <p class="description" align="right" style="float: right;line-height: 50px; color: #c2c2c2;"><a href="https://github.com/Hello-hao/HellohaoWallpaper" style="color:#ffffff;cursor:pointer;">Github开源</a></p>
-    </div>
+
+
+
 </div>
 
-    <div id="waterfall" style="margin-top: 70px;">
+    <div id="waterfall" style="margin-top: 80px;">
+
 <!--         <div class="pin">
             <img src="img/1.jpeg" alt="壁纸">
             <p class="description">名字</p>
@@ -63,17 +74,18 @@
     </div>
     <div class="loader" id="loader">
         <div class="loader-inner line-spin-fade-loader">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <img style="width: 30px;height: auto;" src="https://i.loli.net/2019/05/05/5cceb4277fc61.gif" />
+<!--            <div></div>-->
+<!--            <div></div>-->
+<!--            <div></div>-->
+<!--            <div></div>-->
+<!--            <div></div>-->
+<!--            <div></div>-->
+<!--            <div></div>-->
+<!--            <div></div>-->
         </div>
     </div>
-
+</div>
     <script src="https://cdn.90so.net/jquery/3.4.0/jquery.min.js"></script>
     <script type="text/javascript" th:src="@{/js/waterfall.js}"></script>
     <script type="text/javascript" th:src="@{/js/mustache.min.js}"></script>
@@ -82,55 +94,11 @@
     <script>
         var start = 0;
         var count = 21;
+        var category = 0;
     	window.onload = function(){
-    		var waterfall = new WaterFall({
-    		    container: '#waterfall',
-    		    pins: ".pin",
-    		    loader: '#loader',
-    		    gapHeight: 20,
-    		    gapWidth: 20,
-    		    pinWidth: 316,
-                threshold: 100
-    		});
-
-    		waterfall.on("load", function(){
-    			setTimeout(function(){
-                    //加载图片
-                    $.ajax({
-                        type: "POST",
-                        url: "/GetWallpapers",
-                        data: {start:start, count:count},
-                        dataType: "json",
-                        //async: false,
-                        success: function(data){
-                            var arr = [];
-                            for (var i = 0; i <  data.data.length; i++) {
-                                var url = data.data[i].url_mobile;
-                                var name = data.data[i].utag;
-                                if(url!=""&&url!=null){
-                                    //生成缩略图
-                                    var imgurl = url.replace('qhimg.com/','qhimg.com/bdm/500_281_80/');
-                                    var view = {
-                                        name: name,
-                                        url: url,
-                                        imgurl: imgurl
-                                    };
-                                    var output = Mustache.render('<div class="pin" onclick="win(\'{{&url}}\', \'{{name}}\')"><img class="img" src="{{&imgurl}}" lay-src="{{&imgurl}}"/><p class="description" align="center">{{name}}</p></div>', view);
-                                    arr.push(output);
-                                }else{
-                                    console.log("有图片没有获取到地址："+i);
-                                }
-
-                            }
-                            // 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
-                            waterfall.append(arr.join(''), '.img')
-                            start = start+count;
-                        }
-                    });
-
-    			}, 500)
-    		})
+            Loading();
     	}
+
 
         layui.use('flow', function(){
             var flow = layui.flow;
@@ -140,6 +108,42 @@
             });
         });
 
+        layui.use('element', function(){
+            var element = layui.element;
+
+            //一些事件监听
+            element.on('tab(daohang)', function(data){
+            });
+        });
+
+        //获取分类
+        $.ajax({
+            type: "POST",
+            url: "/GetCategory",
+            data: {start:start, count:count},
+            dataType: "json",
+            //async: false,
+            success: function(data){
+                for (var i = 0; i <  data.data.length; i++) {
+                    var id = data.data[i].id;
+                    var category = data.data[i].name;
+                    $("#category").append('<dd><a href="javascript:;" onclick="getcategory('+id+');">'+category+'</a></dd>');
+                }
+                // 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
+                //waterfall.append(arr.join(''), '.img')
+            }
+        });
+
+
+        function getcategory(id) {
+            start = 0;
+            count = 21;
+            category = id;
+            $("#waterfall").html('');
+            Loading();
+
+
+        }
     	function win(url,name){
             layer.open({
                 type: 1,
@@ -169,11 +173,60 @@ function guanyu(){
         title: '关于网站',
         closeBtn: 0, //不显示关闭按钮
         area: ['500px', '300px'],
-        content: '本站提供高清图片壁纸图片浏览，供用户下载使用，由java语言基于360接口开发,本页面不做任何数据采集操作，图片来源或联网。仅供参考。' +
+        content: '本站提供高清图片壁纸图片浏览，供用户下载使用，由java语言基于三方接口开发,本页面不做任何数据采集操作，图片来源或联网。仅供参考。' +
             '<br /><p style="font-weight:bold;color:#1E9FFF">作者博客：http://www.hellohao.cn</p>'
     });
 }
 
+function Loading() {
+    var waterfall = new WaterFall({
+        container: '#waterfall',
+        pins: ".pin",
+        loader: '#loader',
+        gapHeight: 20,
+        gapWidth: 20,
+        pinWidth: 316,
+        threshold: 100
+    });
+
+    waterfall.on("load", function(){
+        setTimeout(function(){
+            //加载图片
+            $.ajax({
+                type: "POST",
+                url: "/GetWallpapers",
+                data: {start:start, count:count,category:category },
+                dataType: "json",
+                async: false,
+                success: function(data){
+                    var arr = [];
+                    for (var i = 0; i <  data.data.length; i++) {
+                        var url = data.data[i].url_mobile;
+                        var name = data.data[i].utag;
+                        if(url!=""&&url!=null){
+                            //生成缩略图
+                            var imgurl = url.replace('qhimg.com/','qhimg.com/bdm/500_281_80/');
+                            var view = {
+                                name: name,
+                                url: url,
+                                imgurl: imgurl
+                            };
+                            var output = Mustache.render('<div class="pin" onclick="win(\'{{&url}}\', \'{{name}}\')"><img class="img" src="{{&imgurl}}" lay-src="{{&imgurl}}"/><p class="description" align="center">{{name}}</p></div>', view);
+                            arr.push(output);
+                        }else{
+                            //console.log("有图片没有获取到地址："+i);
+                        }
+
+                    }
+                    // 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
+                    waterfall.append(arr.join(''), '.img')
+                    start = start+count;
+                }
+            });
+
+        }, 500)
+    })
+}
 
     </script>
 </body>

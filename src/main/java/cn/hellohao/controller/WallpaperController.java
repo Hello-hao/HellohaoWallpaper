@@ -17,14 +17,27 @@ public class WallpaperController {
     @RequestMapping("/")
     public String index() {
         //return "wallpaper";
-        System.out.println("blog:www.hellohao.cn");
+        System.out.println("如有Bug请去博客反馈与我，持续更新：www.hellohao.cn");
         return "index";
     }
 
+    //首页最新更新
     @RequestMapping(value="/GetWallpapers",method = RequestMethod.POST)
     @ResponseBody
-    public String GetWallpaper(Integer start, Integer count) {
-        String wallpaper = wallpaperService.GetWallpaper(start, count);
+    public String GetWallpaper(Integer start, Integer count,Integer category) {
+        String wallpaper = "";
+        wallpaper = wallpaperService.GetWallpaper(start, count,category);
         return wallpaper;
     }
+
+
+    //获取所有分类
+    @RequestMapping(value="/GetCategory",method = RequestMethod.POST)
+    @ResponseBody
+    public String GetCategory(){
+        String category = wallpaperService.GetWallpaperCategory();
+        return category;
+
+    }
+    //如有Bug请去博客反馈与我，持续更新：www.hellohao.cn
 }

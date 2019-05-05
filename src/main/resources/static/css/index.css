@@ -5,7 +5,7 @@ html {
 
 .fly-header{float: left; list-style-type:none;  line-height: 70px; position: fixed;left: 0;top: 0;z-index: 10000;width: 100%;height: 60px;border-bottom: 1px solid #404553;border-right: 1px solid #404553;border-radius: 0;}
 .probootstrap-logo {
-    font-size: 28px;
+    margin-left: 5%;
     text-decoration: none;
     color: #000;
     color: #1FAD9F;
