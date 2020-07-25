@@ -2,7 +2,7 @@
 基于SpringBoot搭建的的高清壁纸图片站，对接的360壁纸api。
 
 
-（如果不会可以用我打包好的jar包直接部署就可以。在`/成品jar包下`）
+如果不会可以用我打包好的jar包直接部署就可以。[**点击下载**](https://github.com/Hello-hao/HellohaoWallpaper/releases)
 
 ![5f1c4fcc380e5_5f1c4fcc472b5.png](https://i.loli.net/2020/07/25/WNaG3mT7CiDwQr1.png)
 
