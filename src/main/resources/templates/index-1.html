@@ -1,0 +1,303 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title th:text="${webName}">HelloWallpaper壁纸站</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="shortcut icon" th:href="@{/assets/ico.ico}" type="image/x-icon"/>
+		<link rel="icon" type="image/ico" th:href="@{/assets/ico.ico}"/>
+		<!--[if lte IE 8]><script th:src="@{/assets/js/ie/html5shiv.js}"></script><![endif]-->
+		<link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+		<!--[if lte IE 9]>
+		<link rel="stylesheet" th:href="@{/assets/css/ie9.css}" /><![endif]-->
+		<!--[if lte IE 8]>
+		<link rel="stylesheet" th:href="@{/assets/css/ie8.css}" /><![endif]-->
+		<style type="text/css">
+			.setimg{
+				/*max-height: 100%;*/
+				max-width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="/"><strong>HOME</strong></a></h1>
+						<nav>
+							<ul>
+								<li><a href="#footer" class="icon fa-info-circle">More</a></li>
+							</ul>
+						</nav>
+					</header>
+				<!-- Main -->
+				<img th:src="@{/assets/pc.png}" id="pctype" onclick="showtype(1)" style="display:none;width: 3rem;height: 3rem;position: fixed;bottom: 11%;right: 2.5rem;z-index: 9999;"/>
+				<img th:src="@{/assets/md.png}" id="mdtype" onclick="showtype(2)" style=" width: 3rem;height: 3rem;position: fixed;bottom: 11%;right: 2.5rem;z-index: 9999;"/>
+				<div id="main">
+
+<!--						<article class="thumb">-->
+<!--							<a href="http://p4.qhimg.com/bdr/__85/t0145c4ca089feef136.jpg" class="image"><img src="http://p4.qhimg.com/bdr/__85/t0145c4ca089feef136.jpg" alt="" /></a>-->
+<!--							<h2>Magna feugiat lorem</h2>-->
+<!--						<p></p>-->
+<!--					</article>-->
+					</div>
+					<footer id="footer" class="panel">
+						<div class="inner split">
+							<div>
+								<section>
+									<h2>Follow me on ...</h2>
+									<ul class="icons" th:utext="${weblinks}"></ul>
+								</section>
+								<p class="copyright">
+									© Based on java, written by <a href="http://www.hellohao.cn/" target="_blank" title="hellohao">Hellohao.</a>
+								</p>
+							</div>
+							<div>
+								<section>
+									<h2>图片分类</h2>
+									<ul class="icons" id="isclass">
+									</ul>
+								</section>
+							</div>
+						</div>
+					</footer>
+			</div>
+		<!-- Scripts -->
+		<script type="text/javascript" th:src="@{/assets/js/jquery.min.js}"></script>
+		<script type="text/javascript" th:src="@{/assets/js/jquery.poptrox.min.js}"></script>
+		<script type="text/javascript" th:src="@{/assets/js/skel.min.js}"></script>
+		<script type="text/javascript" th:src="@{/assets/js/util.js}"></script>
+		<!--[if lte IE 8]>
+		<script type="text/javascript" th:src="@{/assets/js/ie/respond.min.js}"></script><![endif]-->
+		<script type="text/javascript" th:src="@{/assets/js/main.js}"></script>
+		<script type="text/javascript" th:src="@{/js/mustache.min.js}"></script>
+		<script type="text/javascript" th:src="@{/assets/js/pages.js}"></script>
+
+		<script>
+		var stype = 1;
+
+		var start = 0;
+		var count = 12;
+		var category = 0;
+		var mbstart = 0;
+		var mbcount = 20;
+		var mbcategory;
+		// Main.
+		var $body = $('body');
+		var $main = $('#main');
+
+		$(function () {
+			window.scrollTo(0,0);//滚动到顶部
+		})
+		$(window).load(function(){
+			GetWallpapers();
+			GetCategory();
+		});
+		function GetWallpapers() {
+			$.ajax({
+				type: "GET",
+				url: "/GetWallpapers",
+				data: {start: start, count: count, category: category},
+				dataType: "json",
+				async: false,
+				success: function (data) {
+					var arr = [];
+					for (var i = 0; i < data.length; i++) {
+						var url = data[i].ImgUrl;
+						var name = data[i].ImgTag;
+						if (url != "" && url != null) {
+							var view = {
+								name: name,
+								url: url
+							};
+							var output = Mustache.render('<article class="thumb"><a href="{{url}}" class="image"><img class="setimg" src="{{url}}" alt="{{name}}" /></a><h2>{{name}}</h2><p>高清源图下载：<a href="{{url}}" target="_blank">Jump to source address</a><a ></a></p></article>',view);//{{&url}}
+							arr.push(output);
+						} else {
+							console.log("有图片没有获取到地址：" + i);
+						}
+					}
+					// 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
+					$('#main').append(arr.join('<br />'));
+					start = start + count;
+					Render();
+				}
+			});
+		}
+
+		//GetMobilepapers
+		function GetMobilepapers() {
+			$.ajax({
+				type: "GET",
+				url: "/GetMobilepapers",
+				data: {start: mbstart, count: mbcount, category: mbcategory},
+				dataType: "json",
+				async: false,
+				success: function (data) {
+					var arr = [];
+					for (var i = 0; i < data.length; i++) {
+						var url = data[i].ImgUrl;
+						var name = data[i].ImgTag;
+						if (url != "" && url != null) {
+							var view = {
+								name: name,
+								url: url
+							};
+							var output = Mustache.render('<article class="thumb" style="width: 20%;"><a href="{{url}}" class="image"><img class="setimg" src="{{url}}" alt="{{name}}" /></a><h2>{{name}}</h2><p>高清源图下载：<a href="{{url}}" target="_blank">Jump to source address</a><a ></a></p></article>',view);//{{&url}}
+							arr.push(output);
+						} else {
+							console.log("有图片没有获取到地址：" + i);
+						}
+					}
+					// 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
+					$('#main').append(arr.join('<br />'));
+					mbstart = mbstart + mbcount;
+					Render();
+				}
+			});
+		}
+
+		function GetMobilCategory(){
+			//获取mb分类
+			$.ajax({
+				type: "GET",
+				url: "/GetMobileCategory",
+				dataType: "json",
+				//async: false,
+				success: function (data) {
+					var arr = [];
+					for (var i = 0; i < data.res.category.length; i++) {
+						var id = data.res.category[i].id;
+						var category = data.res.category[i].name;
+						var view = {
+							id: id,
+							name: category
+						};
+						var output = Mustache.render("<li><a href=\"javascript:;\" onclick=\"getmbcategory(\'{{id}}\');\"><span class=\"label\">{{name}}</span></a></li>",view);
+						arr.push(output);
+						//$("#isclass").append('<li><a href="javascript:;" onclick="getcategory(' + id + ');"><span class="label">' + category + '</span></a></li>');
+					}
+					$('#isclass').append(arr.join(''));
+				}
+			});
+		}
+
+		function GetCategory(){
+			//获取分类
+			$.ajax({
+				type: "GET",
+				url: "/GetCategory",
+				//data: {start: start, count: count},
+				dataType: "json",
+				//async: false,
+				success: function (data) {
+					for (var i = 0; i < data.data.length; i++) {
+						var id = data.data[i].id;
+						var category = data.data[i].name;
+						$("#isclass").append('<li><a href="javascript:;" onclick="getcategory(' + id + ');"><span class="label">' + category + '</span></a></li>');
+					}
+				}
+			});
+		}
+
+		function getcategory(id) {
+			start = 0;
+			count = 12;
+			category = id;
+			$("#main").html('');
+			window.scrollTo(0,0);//滚动到顶部
+			GetWallpapers();
+		}
+		function getmbcategory(id) {
+			mdstart = 0;
+			mdcount = 12;
+			mdcategory = id;
+			$("#main").html('');
+			window.scrollTo(0,0);//滚动到顶部
+			//GetMobilCategory();
+			GetMobilepapers();
+		}
+
+		$("#main").falless({offsetY:15,})
+		window.onscroll=function(){
+			winH=$(window).height();
+			docH=$("body").height();
+			scrTop=$(window).scrollTop();
+			if((scrTop+winH+100)>=docH){
+				if(stype==1){
+					GetWallpapers();
+				}
+				if(stype==2){
+					GetMobilepapers();
+				}
+				// for (var i = 1; i <count; i++) {
+				//
+				// };
+				$("#main").falless({offsetY:15,})
+			}
+		}
+
+		function showtype(v) {
+			stype = v;
+			window.scrollTo(0,0);//滚动到顶部
+			if(v==1){
+				$('#mdtype').css('display','block');
+				$('#pctype').css('display','none');
+				$('#main').html('');
+				start = 0;
+				count = 12;
+				category = 0;
+				GetWallpapers();
+				//alert('已切换电脑'+v)
+			}
+			if(v==2){
+				$('#pctype').css('display','block');
+				$('#mdtype').css('display','none');
+				$('#main').html('');
+				$('#isclass').html('');
+				mbstart = 0;
+				mbcount = 20;
+				mbcategory;
+				GetMobilepapers();
+				GetMobilCategory();
+				//alert('已切换手机'+v)
+			}
+
+		}
+		function Render() {
+			$main.poptrox({
+				baseZIndex: 20000,
+				caption: function($a) {
+					var s = '';
+					$a.nextAll().each(function() {
+						s += this.outerHTML;
+					});
+					return s;
+				},
+				fadeSpeed: 300,
+				onPopupClose: function() { $body.removeClass('modal-active'); },
+				onPopupOpen: function() { $body.addClass('modal-active'); },
+				overlayOpacity: 0,
+				popupCloserText: '',
+				popupHeight: 150,
+				popupLoaderText: '',
+				popupSpeed: 300,
+				popupWidth: 150,
+				selector: '.thumb > a.image',
+				usePopupCaption: true,
+				usePopupCloser: true,
+				usePopupDefaultStyling: false,
+				usePopupForceClose: true,
+				usePopupLoader: true,
+				usePopupNav: true,
+				windowMargin: 50
+			});
+
+		}
+
+	</script>
+
+	
+	
+	</body>
+</html>

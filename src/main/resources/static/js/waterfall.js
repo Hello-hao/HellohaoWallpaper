@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var root = (typeof self == 'object' && self.self == self && self) ||
         (typeof global == 'object' && global.global == global && global) ||
         this || {};
@@ -7,13 +7,14 @@
     Function.prototype.bind = Function.prototype.bind || function (context) {
 
         if (typeof this !== "function") {
-          throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
+            throw new Error("Function.prototype.bind - what is trying to be bound is not callable");
         }
 
         var self = this;
         var args = Array.prototype.slice.call(arguments, 1);
 
-        var fNOP = function () {};
+        var fNOP = function () {
+        };
 
         var fBound = function () {
             var bindArgs = Array.prototype.slice.call(arguments);
@@ -26,7 +27,7 @@
     }
 
     var util = {
-        extend: function(target) {
+        extend: function (target) {
             for (var i = 1, len = arguments.length; i < len; i++) {
                 for (var prop in arguments[i]) {
                     if (arguments[i].hasOwnProperty(prop)) {
@@ -37,7 +38,7 @@
 
             return target
         },
-        isValidListener: function(listener) {
+        isValidListener: function (listener) {
             if (typeof listener === 'function') {
                 return true
             } else if (listener && typeof listener === 'object') {
@@ -46,11 +47,10 @@
                 return false
             }
         },
-        indexOf: function(array, item) {
+        indexOf: function (array, item) {
             if (array.indexOf) {
                 return array.indexOf(item);
-            }
-            else {
+            } else {
                 var result = -1;
                 for (var i = 0, len = array.length; i < len; i++) {
                     if (array[i] === item) {
@@ -67,7 +67,7 @@
         this.__events = {}
     }
 
-    EventEmitter.prototype.on = function(eventName, listener) {
+    EventEmitter.prototype.on = function (eventName, listener) {
         if (!eventName || !listener) return;
 
         if (!util.isValidListener(listener)) {
@@ -89,14 +89,14 @@
         return this;
     };
 
-    EventEmitter.prototype.once = function(eventName, listener) {
+    EventEmitter.prototype.once = function (eventName, listener) {
         return this.on(eventName, {
             listener: listener,
             once: true
         })
     };
 
-    EventEmitter.prototype.off = function(eventName, listener) {
+    EventEmitter.prototype.off = function (eventName, listener) {
         var listeners = this.__events[eventName];
         if (!listeners) return;
 
@@ -115,7 +115,7 @@
         return this;
     };
 
-    EventEmitter.prototype.emit = function(eventName, args) {
+    EventEmitter.prototype.emit = function (eventName, args) {
         var listeners = this.__events[eventName];
         if (!listeners) return;
 
@@ -135,13 +135,13 @@
     };
 
     // 惰性函数 addEvent
-    var addEvent = (function() {
+    var addEvent = (function () {
         if (window.addEventListener) {
-            return function(elem, type, fn) {
+            return function (elem, type, fn) {
                 elem.addEventListener(type, fn, false);
             }
         } else if (window.attachEvent) {
-            return function(elem, type, fn) {
+            return function (elem, type, fn) {
                 elem.attachEvent('on' + type, fn);
             }
         }
@@ -173,7 +173,7 @@
 
     proto.constructor = WaterFall;
 
-    proto.init = function() {
+    proto.init = function () {
 
         // 计算有多少列
         this.getColumnNum();
@@ -187,7 +187,7 @@
 
         var self = this;
         // 设置瀑布流
-        setTimeout(function() {
+        setTimeout(function () {
             self.setWaterFall();
         }, 0)
         // 绑定滚动事件
@@ -195,7 +195,7 @@
 
     };
 
-    proto.getColumnNum = function() {
+    proto.getColumnNum = function () {
         this._unitWidth = this.opts.pinWidth + this.opts.gapWidth;
 
         this._viewPortWidth = window.innerWidth || document.documentElement.clientWidth;
@@ -206,35 +206,36 @@
         // 用于储存每列的高度，起始都为 0
         this._columnHeightArr = [];
         for (var i = 0; i < this._num; i++) {
-            this._columnHeightArr[i] = 0;;
+            this._columnHeightArr[i] = 0;
+            ;
         }
     };
 
     /**
      * 计算并且设置 container 宽度，使其居中
      */
-    proto.setContainer = function() {
+    proto.setContainer = function () {
         this._container.style.width = (this._unitWidth * this._num - this.opts.gapWidth) + 'px';
     };
 
     /**
      * 获取高度数组中的最小值，用于确定下个 pin 插入到那一列中
      */
-    proto.getMin = function() {
+    proto.getMin = function () {
         return Math.min.apply(null, this._columnHeightArr);
     };
 
     /**
      * 获取高度数组中的最大值，用于设置 loading 的 top 值
      */
-    proto.getMax = function() {
+    proto.getMax = function () {
         return Math.max.apply(null, this._columnHeightArr);
     };
 
     // 保证一次只进行一次加载
     var load = false;
 
-    proto.appendPins = function() {
+    proto.appendPins = function () {
         if (load) return;
 
         load = true;
@@ -244,15 +245,15 @@
             this._loader.style.display = 'block';
             this._loader.style.top = (this.getMax() + 100) + 'px';
             this._loader.style.left = '50%';
-            this._loader.style.height='50px';
-            this._loader.style.width='50px';
+            this._loader.style.height = '50px';
+            this._loader.style.width = '50px';
         }
 
         // 保证短时间内只触发一次
         this.emit("load");
     };
 
-    proto.append = function(html, selector) {
+    proto.append = function (html, selector) {
 
         this._checkResult = [];
         this._newPins = [];
@@ -274,7 +275,7 @@
         this.isReadyAppend(fragment)
     };
 
-    proto._checkImgHeight = function(childNode, selector, index) {
+    proto._checkImgHeight = function (childNode, selector, index) {
 
         var startTime = new Date().getTime();
 
@@ -283,7 +284,7 @@
         var self = this;
 
         // 本地图片会先执行 onload 事件
-        img.onload = function() {
+        img.onload = function () {
             if (img.getAttribute('height')) return;
             // 得到高度后，设置高度
             img.setAttribute('height', Math.floor(img.height / img.width * self.opts.pinWidth));
@@ -293,7 +294,7 @@
             clearInterval(timer)
         }
 
-        img.onerror = function() {
+        img.onerror = function () {
 
             if (img.getAttribute('height')) return;
 
@@ -308,7 +309,7 @@
         if (img.getAttribute('height')) return img;
 
         // 通过设置 interval 来最快得到加载中的图片高度
-        var check = function() {
+        var check = function () {
             if (img.width > 0 && img.height > 0) {
 
                 img.setAttribute('height', Math.floor(img.height / img.width * self.opts.pinWidth));
@@ -324,11 +325,11 @@
 
     };
 
-    proto.isReadyAppend = function(fragment) {
+    proto.isReadyAppend = function (fragment) {
         // 只有当所有图片都具有高度的时候，才添加进文档树
         var self = this;
 
-        var checkAllHaveHeight = function() {
+        var checkAllHaveHeight = function () {
             if (util.indexOf(self._checkResult, false) == -1) {
 
                 self._container.appendChild(fragment);
@@ -351,7 +352,7 @@
     /**
      * 设置新的 pins 的位置
      */
-    proto.setPosition = function(pins) {
+    proto.setPosition = function (pins) {
 
         for (var i = 0, len = pins.length; i < len; i++) {
             var min = this.getMin();
@@ -372,28 +373,28 @@
     /**
      * 判断是否需要添加新的 pins，在 init 的时候会调用一次，保证首屏充满
      */
-    proto.setWaterFall = function() {
+    proto.setWaterFall = function () {
         if (this.getMin() < this._viewPortHeight) {
             this.appendPins();
         }
     };
 
-    proto.bindScrollEvent = function() {
+    proto.bindScrollEvent = function () {
         addEvent(window, "scroll", this.handleScroll.bind(this));
         addEvent(window, "resize", this.handleResize.bind(this))
     };
 
     var timer = null;
 
-    proto.handleResize = function() {
+    proto.handleResize = function () {
         var self = this;
         clearTimeout(timer);
-        timer = setTimeout(function() {
+        timer = setTimeout(function () {
             self.resetPosition()
         }, 100)
     };
 
-    proto.resetPosition = function() {
+    proto.resetPosition = function () {
         // 计算有多少列
         this.getColumnNum();
         // 设置 container 居中
@@ -405,14 +406,14 @@
     /**
      * 只要有空白处，就可以加载新的数据
      */
-    proto.checkScroll = function() {
+    proto.checkScroll = function () {
         if (this.getMin() - (window.pageYOffset || document.documentElement.scrollTop) < this._viewPortHeight + this.opts.threshold) {
             return true
         }
         return false;
     };
 
-    proto.handleScroll = function() {
+    proto.handleScroll = function () {
 
         var self = this;
         //console.log(self.checkScroll())
@@ -431,5 +432,5 @@
         root.WaterFall = WaterFall;
     }
     //开源不易，建议保留作者版权信息，感谢支持。
-    console.log("\n %c 高清壁纸站 %c by Hellohao博客 | www.hellohao.cn","color:#444;background:#eee;padding:5px 0;","color:#eee;background:#444;padding:5px 0;");
+    console.log("\n %c 高清壁纸站 %c by Hellohao博客 | www.hellohao.cn", "color:#444;background:#eee;padding:5px 0;", "color:#eee;background:#444;padding:5px 0;");
 }());

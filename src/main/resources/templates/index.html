@@ -2,33 +2,39 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
+
     <title>Wallpaper壁纸站</title>
+    <meta name="description" content="电脑壁纸,高清壁纸,hellohao壁纸,壁纸,壁纸站"/>
     <link rel="icon" type="image/ico" href="https://hellohao.nos-eastchina1.126.net/BlogImg/favicon.ico">
     <link rel="stylesheet" th:href="@{/css/normalize.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
-    <link href="https://cdn.90so.net/layui/2.4.5/css/layui.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/layuicss/layui.css}" rel="stylesheet" type="text/css"/>
     <style>
-        .daohang{
-            list-style:none; /* 去掉ul前面的符号 */
+        .daohang {
+            list-style: none; /* 去掉ul前面的符号 */
             margin: 0px; /* 与外界元素的距离为0 */
             padding: 0px; /* 与内部元素的距离为0 */
             width: auto; /* 宽度根据元素内容调整 */
         }
-        .daohang li{
-            float:left;
+
+        .daohang li {
+            float: left;
             display: block; /* 此元素将显示为块级元素，此元素前后会带有换行符 */
             line-height: 60px; /* 行高 */
             padding: 4px 20px; /* 内部填充的距离 */
         }
-        .daohang a{
-            cursor:pointer;
+
+        .daohang a {
+            cursor: pointer;
             color: #f8f8f8;
         }
-        .daohang a:hover{
+
+        .daohang a:hover {
             color: #c2c2c2;
         }
-        .layui-layer-content{
+
+        .layui-layer-content {
             overflow: scroll;
         }
 
@@ -38,197 +44,213 @@
 
 <body>
 <div>
-<div class="fly-header layui-bg-black">
+    <div class="fly-header layui-bg-black">
         <ul class="layui-nav" lay-filter="daohang">
-            <img src="https://hellohao.nos-eastchina1.126.net/BlogImg/bzlogo.png" style="width: 210px;height: auto; margin-left: 3%;" />
-<!--            <a style="font-size: 28px;" href="/" class="probootstrap-logo">Wallpaper</a>-->
-<!--            <a style="font-size: 14px;" href="/" class="probootstrap-logo2">壁纸</a>-->
+            <img src="https://hellohao.nos-eastchina1.126.net/BlogImg/bzlogo.png"
+                 style="width: 210px;height: auto; margin-left: 3%;"/>
+            <!--            <a style="font-size: 28px;" href="/" class="probootstrap-logo">Wallpaper</a>-->
+            <!--            <a style="font-size: 14px;" href="/" class="probootstrap-logo2">壁纸</a>-->
             <li class="layui-nav-item layui-this" style="margin-left:10px;">
                 <a href="javascript:;">图片分类</a>
                 <dl class="layui-nav-child" id="category" style="height: 300px;overflow:scroll;"> <!-- 二级菜单 -->
-<!--                    <dd><a href="">美女</a></dd>-->
-<!--                    <dd><a href="">汽车</a></dd>-->
-<!--                    <dd><a href="">艺术</a></dd>-->
+                    <!--                    <dd><a href="">美女</a></dd>-->
+                    <!--                    <dd><a href="">汽车</a></dd>-->
+                    <!--                    <dd><a href="">艺术</a></dd>-->
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="http://www.hellohao.cn" target="_blank"><i class="layui-icon layui-icon-link">&nbsp;</i>作者博客</a></li>
-            <li class="layui-nav-item"><a href="javascript:;" onclick="guanyu();"><i class="layui-icon layui-icon-about">&nbsp;</i>关于网站</a></li>
-            <li class="layui-nav-item"><a href="https://github.com/Hello-hao/HellohaoWallpaper" target="_blank"><i class="layui-icon layui-icon-star">&nbsp;</i>Github开源</a></li>
+            <li class="layui-nav-item"><a href="http://www.hellohao.cn" target="_blank"><i
+                    class="layui-icon layui-icon-link">&nbsp;</i>作者博客</a></li>
+            <li class="layui-nav-item"><a href="javascript:;" onclick="guanyu();"><i
+                    class="layui-icon layui-icon-about">&nbsp;</i>开发者API</a></li>
+            <li class="layui-nav-item"><a href="https://github.com/Hello-hao/HellohaoWallpaper" target="_blank"><i
+                    class="layui-icon layui-icon-star">&nbsp;</i>Github开源</a></li>
 
         </ul>
 
 
-
-</div>
+    </div>
 
     <div id="waterfall" style="margin-top: 80px;">
 
-<!--         <div class="pin">
-            <img src="img/1.jpeg" alt="壁纸">
-            <p class="description">名字</p>
-        </div>
-        <div class="pin">
-            <img src="img/9.jpeg" alt="壁纸">
-            <p class="description">名字</p>
-        </div> -->
+        <!--         <div class="pin">
+                    <img src="img/1.jpeg" alt="壁纸">
+                    <p class="description">名字</p>
+                </div>
+                <div class="pin">
+                    <img src="img/9.jpeg" alt="壁纸">
+                    <p class="description">名字</p>
+                </div> -->
     </div>
     <div class="loader" id="loader">
         <div class="loader-inner line-spin-fade-loader">
-            <img style="width: 30px;height: auto;" src="https://i.loli.net/2019/05/05/5cceb4277fc61.gif" />
-<!--            <div></div>-->
-<!--            <div></div>-->
-<!--            <div></div>-->
-<!--            <div></div>-->
-<!--            <div></div>-->
-<!--            <div></div>-->
-<!--            <div></div>-->
-<!--            <div></div>-->
+            <img style="width: 30px;height: auto;" src="https://i.loli.net/2019/05/05/5cceb4277fc61.gif"/>
+            <!--            <div></div>-->
+            <!--            <div></div>-->
+            <!--            <div></div>-->
+            <!--            <div></div>-->
+            <!--            <div></div>-->
+            <!--            <div></div>-->
+            <!--            <div></div>-->
+            <!--            <div></div>-->
         </div>
     </div>
 </div>
-    <script src="https://cdn.90so.net/jquery/3.4.0/jquery.min.js"></script>
-    <script type="text/javascript" th:src="@{/js/waterfall.js}"></script>
-    <script type="text/javascript" th:src="@{/js/mustache.min.js}"></script>
-    <script src="https://cdn.90so.net/layui/2.4.5/layui.all.js" charset="utf-8"></script>
+<script type="text/javascript" th:src="@{/js/jquery-3.4.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/waterfall.js}"></script>
+<script type="text/javascript" th:src="@{/js/mustache.min.js}"></script>
+<script type="text/javascript" th:src="@{/layui/layui.all.js}"></script>
 
-    <script>
-        var start = 0;
-        var count = 21;
-        var category = 0;
-    	window.onload = function(){
-            Loading();
-    	}
+<script>
+    var start = 0;
+    var count = 21;
+    var category = 0;
+    window.onload = function () {
+        Loading();
+    }
 
 
-        layui.use('flow', function(){
-            var flow = layui.flow;
-            //当你执行这样一个方法时，即对页面中的全部带有lay-src的img元素开启了懒加载（当然你也可以指定相关img）
-            flow.lazyimg({
-                elem: '.pin img'
-            });
+    layui.use('flow', function () {
+        var flow = layui.flow;
+        //当你执行这样一个方法时，即对页面中的全部带有lay-src的img元素开启了懒加载（当然你也可以指定相关img）
+        flow.lazyimg({
+            elem: '.pin img'
         });
+    });
 
-        layui.use('element', function(){
-            var element = layui.element;
+    layui.use('element', function () {
+        var element = layui.element;
 
-            //一些事件监听
-            element.on('tab(daohang)', function(data){
-            });
+        //一些事件监听
+        element.on('tab(daohang)', function (data) {
         });
+    });
 
-        //获取分类
-        $.ajax({
-            type: "POST",
-            url: "/GetCategory",
-            data: {start:start, count:count},
-            dataType: "json",
-            //async: false,
-            success: function(data){
-                for (var i = 0; i <  data.data.length; i++) {
-                    var id = data.data[i].id;
-                    var category = data.data[i].name;
-                    $("#category").append('<dd><a href="javascript:;" onclick="getcategory('+id+');">'+category+'</a></dd>');
-                }
-                // 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
-                //waterfall.append(arr.join(''), '.img')
+    //获取分类
+    $.ajax({
+        type: "POST",
+        url: "/GetCategory",
+        data: {start: start, count: count},
+        dataType: "json",
+        //async: false,
+        success: function (data) {
+            for (var i = 0; i < data.data.length; i++) {
+                var id = data.data[i].id;
+                var category = data.data[i].name;
+                $("#category").append('<dd><a href="javascript:;" onclick="getcategory(' + id + ');">' + category + '</a></dd>');
             }
+            // 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
+            //waterfall.append(arr.join(''), '.img')
+        }
+    });
+
+
+    function getcategory(id) {
+        start = 0;
+        count = 21;
+        category = id;
+        $("#waterfall").html('');
+        Loading();
+    }
+
+    function win(url, name) {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-demo', //样式类名
+            closeBtn: 0, //不显示关闭按钮
+            area: ['70%', '70%'],
+            title: '<i class="layui-icon layui-icon-picture-fine"></i>&nbsp;&nbsp;&nbsp;' + name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(如需下载壁纸，请直接右键另存为即可保存原画质壁纸。)",
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            content: '<img src="' + url + '" style=" width:100%;height:100%;max-width:100%;max-height:100%;">'
+        });
+    }
+
+    function win(url, name) {
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-demo', //样式类名
+            closeBtn: 0, //不显示关闭按钮
+            area: ['65%', '80%'],
+            title: '<i class="layui-icon layui-icon-picture-fine"></i>&nbsp;&nbsp;&nbsp;' + name + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(如需下载壁纸，请直接右键另存为即可保存原画质壁纸。)",
+            anim: 2,
+            shadeClose: true, //开启遮罩关闭
+            content: '<img src="' + url + '" style=" width:100%;height:auto;max-width:100%;max-height:100%;">'
+        });
+    }
+
+    function guanyu() {
+        var jsons = '<pre class="layui-code">\n' +
+            '   [\n' +
+            '    {\n' +
+            '        "ImgUrl": "http://p19.qhimg.com/t01daddf597e10059a3.jpg",\n' +
+            '        "ImgTag": "风景大片 自然风光 麋鹿"\n' +
+            '    },\n' +
+            '    {\n' +
+            '        "ImgUrl": "http://p18.qhimg.com/t01234b43454a1c0caf.jpg",\n' +
+            '        "ImgTag": "刺客信条"\n' +
+            '    }\n' +
+            '   ]\n' +
+            '</pre>';
+        layer.open({
+            title: '开发者API',
+            closeBtn: 0, //不显示关闭按钮
+            area: ['600px', '400px'],
+            content: '本站提供高清图片壁纸图片浏览，供用户下载使用，由java语言对接三方接口开发，由于原接口结构较复杂，无用数据较多。我二次整理接口，调用接口简单：' +
+                '<br />GET请求：<p style="font-weight:bold;color:#1E9FFF">http://bz.hellohao.cn/GetWallpapers?start=开始位置【0】&count=加载数量【2】&category=分类ID【0】0为不使用分类，获取所有最近更新图片</p><br />' + jsons + '<br />' +
+                '获取分类：<p style="font-weight:bold;color:#1E9FFF">http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAllCategoriesV2</p><br />'
+        });
+    }
+
+    function Loading() {
+        var waterfall = new WaterFall({
+            container: '#waterfall',
+            pins: ".pin",
+            loader: '#loader',
+            gapHeight: 20,
+            gapWidth: 20,
+            pinWidth: 316,
+            threshold: 100
         });
 
+        waterfall.on("load", function () {
+            setTimeout(function () {
+                //加载图片
+                $.ajax({
+                    type: "GET",
+                    url: "/GetWallpapers",
+                    data: {start: start, count: count, category: category},
+                    dataType: "json",
+                    //async: false,
+                    success: function (data) {
+                        var arr = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var url = data[i].ImgUrl;
+                            var name = data[i].ImgTag;
+                            if (url != "" && url != null) {
+                                //生成缩略图
+                                var imgurl = url.replace('qhimg.com/', 'qhimg.com/bdm/500_281_80/');
+                                var view = {
+                                    name: name,
+                                    url: url,
+                                    imgurl: imgurl
+                                };
+                                var output = Mustache.render('<div class="pin" onclick="win(\'{{&url}}\', \'{{name}}\')"><img class="img" src="{{&imgurl}}" lay-src="{{&imgurl}}"/><p class="description" align="center">{{name}}</p></div>', view);
+                                arr.push(output);
+                            } else {
+                                console.log("有图片没有获取到地址：" + i);
+                            }
 
-        function getcategory(id) {
-            start = 0;
-            count = 21;
-            category = id;
-            $("#waterfall").html('');
-            Loading();
-
-
-        }
-    	function win(url,name){
-            layer.open({
-                type: 1,
-                skin: 'layui-layer-demo', //样式类名
-                closeBtn: 0, //不显示关闭按钮
-                area: ['70%', '70%'],
-                title: '<i class="layui-icon layui-icon-picture-fine"></i>&nbsp;&nbsp;&nbsp;'+name+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(如需下载壁纸，请直接右键另存为即可保存原画质壁纸。)",
-                anim: 2,
-                shadeClose: true, //开启遮罩关闭
-                content: '<img src="' + url + '" style=" width:100%;height:100%;max-width:100%;max-height:100%;">'
-            });
-        }
-        function win(url,name){
-            layer.open({
-                type: 1,
-                skin: 'layui-layer-demo', //样式类名
-                closeBtn: 0, //不显示关闭按钮
-                area: ['65%', '80%'],
-                title: '<i class="layui-icon layui-icon-picture-fine"></i>&nbsp;&nbsp;&nbsp;'+name+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(如需下载壁纸，请直接右键另存为即可保存原画质壁纸。)",
-                anim: 2,
-                shadeClose: true, //开启遮罩关闭
-                content: '<img src="' + url + '" style=" width:100%;height:auto;max-width:100%;max-height:100%;">'
-            });
-        }
-function guanyu(){
-    layer.open({
-        title: '关于网站',
-        closeBtn: 0, //不显示关闭按钮
-        area: ['500px', '300px'],
-        content: '本站提供高清图片壁纸图片浏览，供用户下载使用，由java语言基于三方接口开发,本页面不做任何数据采集操作，图片来源或联网。仅供参考。' +
-            '<br /><p style="font-weight:bold;color:#1E9FFF">作者博客：http://www.hellohao.cn</p>'
-    });
-}
-
-function Loading() {
-    var waterfall = new WaterFall({
-        container: '#waterfall',
-        pins: ".pin",
-        loader: '#loader',
-        gapHeight: 20,
-        gapWidth: 20,
-        pinWidth: 316,
-        threshold: 100
-    });
-
-    waterfall.on("load", function(){
-        setTimeout(function(){
-            //加载图片
-            $.ajax({
-                type: "POST",
-                url: "/GetWallpapers",
-                data: {start:start, count:count,category:category },
-                dataType: "json",
-                async: false,
-                success: function(data){
-                    var arr = [];
-                    for (var i = 0; i <  data.data.length; i++) {
-                        var url = data.data[i].url_mobile;
-                        var name = data.data[i].utag;
-                        if(url!=""&&url!=null){
-                            //生成缩略图
-                            var imgurl = url.replace('qhimg.com/','qhimg.com/bdm/500_281_80/');
-                            var view = {
-                                name: name,
-                                url: url,
-                                imgurl: imgurl
-                            };
-                            var output = Mustache.render('<div class="pin" onclick="win(\'{{&url}}\', \'{{name}}\')"><img class="img" src="{{&imgurl}}" lay-src="{{&imgurl}}"/><p class="description" align="center">{{name}}</p></div>', view);
-                            arr.push(output);
-                        }else{
-                            //console.log("有图片没有获取到地址："+i);
                         }
-
+                        // 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
+                        waterfall.append(arr.join(''), '.img')
+                        start = start + count;
                     }
-                    // 调用 append 方法 检验是否所有的图片都具有高度后才会 append 进文档树中
-                    waterfall.append(arr.join(''), '.img')
-                    start = start+count;
-                }
-            });
+                });
+            }, 500)
+        })
+    }
 
-        }, 500)
-    })
-}
-
-    </script>
+</script>
 </body>
 
 </html>
